@@ -1,4 +1,5 @@
 # js 组合继承
+!['object prototype'](http://www.mollypages.org/tutorials/jsobj_full.jpg)  
 
 ``` javascript
 function Parent(sName) {
@@ -45,21 +46,13 @@ child.say();
 # js 寄生组合式继承
 
 ``` javascript
-
-function inheritPrototype(subClass,superClass){
-	//创建对象
-	var prototype = Object.create(superClass.prototype);
-	//增强对象
-	prototype.constructor = subClass;
-	//指定对象
-	subClass.prototype = prototype;
+// 继承函数
+function extend(subClass,superClass){
+	var F = function () {};
+	F.prototype = superClass.prototype;
+	subClass.prototype = new F();
+	subClass.prototype.constructor = subClass;
 }
-
- Object.create = function( proto ) {
-    function f(){}
-    f.prototype = proto;
-    return new f;
-};
 
 function Parent(sName) {
 	this.name = sName;
@@ -73,7 +66,7 @@ function Child(sName) {
 	Parent.call(this, sName);
 }
 
-inheritPrototype(Child,Parent);
+extend(Child,Parent);
 
 var child = new Child('Jun');
 
